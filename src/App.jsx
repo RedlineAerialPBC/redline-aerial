@@ -448,27 +448,27 @@ export default function App() {
         <div className="relative mx-auto max-w-7xl px-6 py-24 md:px-10">
           <div className="grid gap-8 rounded-[2rem] border border-white/10 bg-white/5 p-8 shadow-2xl backdrop-blur-md lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-red-300">Contact</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-red-300">Quick Quote</p>
               <h2 className="mt-4 text-4xl font-bold tracking-tight text-white md:text-5xl">
-                Need aerial photos for a claim, listing, or roof record?
+                Need Fast Drone Photos For A Claim, Listing, Or Roof Record?
               </h2>
               <p className="mt-5 max-w-2xl text-lg leading-8 text-white/72">
-                Reach out to schedule professional drone photography for claim support, real estate presentation, or homeowner documentation.
+                Fast professional drone photos for claims, roof records, listings, and property documentation throughout South Florida.
               </p>
             </div>
 
             <div className="rounded-[1.8rem] border border-white/10 bg-black/25 p-6">
               <div className="space-y-4 text-white/82">
-                <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4">Email: redlineaerialpb@gmail.com</div>
-                <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4">FAA Part 107 Certified Remote Pilot</div>
-                <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4">Clients: Adjusters, Realtors, Homeowners</div>
+                <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4">redlineaerialpb@gmail.com</div>
+                <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4">FAA Part 107 Certified Operator</div>
+                <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4">Serving Adjusters, Realtors & Homeowners</div>
               </div>
 
               <a
                 href="mailto:redlineaerialpb@gmail.com"
                 className="mt-6 block rounded-2xl bg-red-600 px-6 py-4 text-center text-sm font-black uppercase tracking-[0.22em] text-white shadow-[0_18px_50px_rgba(220,38,38,0.30)] transition hover:bg-red-500"
               >
-                Email Redline Aerial
+                GET FAST QUOTE
               </a>
             </div>
           </div>
