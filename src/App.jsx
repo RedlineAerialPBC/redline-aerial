@@ -45,10 +45,10 @@ export default function App() {
   ];
 
   const highlights = [
-    "FAA Part 107 certified remote pilot",
-    "Built for adjusters, realtors, and homeowners",
-    "Organized claim and listing support",
-    "Fast local response",
+    "FAA Part 107 Certified",
+    "Firefighter Owned & Operated",
+    "24 Hour Turnaround Available",
+    "Palm Beach & Broward Based",
   ];
 
   const clients = [
