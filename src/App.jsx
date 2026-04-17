@@ -191,7 +191,7 @@ export default function App() {
               </h1>
 
               <p className="mt-6 max-w-2xl text-lg leading-8 text-white/78 md:text-xl">
-                Serving Palm Beach, Broward, and South Florida with fast, professional drone imaging for claims, roofs, and listings.
+               Serving Palm Beach, Broward, and South Florida with fast drone photos for claims, roofs, and listings.
               </p>
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row">
