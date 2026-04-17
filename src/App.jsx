@@ -22,7 +22,7 @@ export default function App() {
     {
       title: "Homeowner Roof Photos",
       description:
-        "Useful documentation for homeowners who want current roof imagery for insurance, storm prep, or post storm records.",
+        "Professional roof photos for homeowners needing insurance records, storm preparation, maintenance planning, or post-storm documentation.",
     },
   ];
 
