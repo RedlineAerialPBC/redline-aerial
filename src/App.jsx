@@ -199,7 +199,7 @@ export default function App() {
                   href="#contact"
                   className="rounded-2xl bg-red-600 px-7 py-4 text-center text-sm font-black uppercase tracking-[0.2em] text-white shadow-[0_18px_50px_rgba(220,38,38,0.35)] hover:bg-red-500 hover:scale-105 transition-all duration-300"
                 >
-                  Request Inspection Photos
+                  Request Quote
                 </a>
                 <a
                   href="#services"
