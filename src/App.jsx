@@ -205,7 +205,7 @@ export default function App() {
                   href="#services"
                   className="rounded-2xl border border-white/15 bg-white/5 px-7 py-4 text-center text-sm font-bold uppercase tracking-[0.2em] text-white backdrop-blur hover:bg-white/10 opacity-80 hover:opacity-100 transition"
                 >
-                  View Services
+                  SEE SERVICES
                 </a>
               </div>
 
