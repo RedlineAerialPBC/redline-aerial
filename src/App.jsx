@@ -185,9 +185,9 @@ export default function App() {
               </div>
 
               <h1 className="mt-8 text-5xl font-black uppercase leading-[0.95] tracking-tight text-white drop-shadow-[0_6px_24px_rgba(0,0,0,0.5)] md:text-7xl">
-                Faster inspections.
+                FAST DRONE PHOTOS.
                 <br />
-                Smarter decisions.
+                FOR CLAIMS & LISTINGS.
               </h1>
 
               <p className="mt-6 max-w-2xl text-lg leading-8 text-white/78 md:text-xl">
