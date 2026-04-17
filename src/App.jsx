@@ -5,22 +5,22 @@ export default function App() {
 
   const services = [
     {
-      title: "Claim Support Photography",
+      title: "Insurance Claim Support Photos",
       description:
         "Clear aerial imagery for adjusters documenting roof and exterior conditions for claims, supplements, and file review.",
     },
     {
-      title: "Roof Condition Documentation",
+      title: "Roof Photo Documentation",
       description:
         "Structured photo sets showing visible roof condition, elevations, and exterior areas that need attention or follow up.",
     },
     {
-      title: "Listing Support for Realtors",
+      title: "Real Estate Listing Photos",
       description:
         "Professional aerial visuals that help present property condition, improve listing presentation, and reduce surprises during the sales process.",
     },
     {
-      title: "Homeowner Roof Documentation",
+      title: "Homeowner Roof Records",
       description:
         "Useful documentation for homeowners who want current roof imagery for insurance, storm prep, or post storm records.",
     },
