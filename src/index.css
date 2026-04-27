@@ -1,1 +1,58 @@
 @import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #07090c;
+}
+
+.site-shell {
+  position: relative;
+  isolation: isolate;
+}
+
+.site-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(circle at 8% 10%, rgba(239, 68, 68, 0.18), transparent 25%),
+    radial-gradient(circle at 90% 24%, rgba(239, 68, 68, 0.1), transparent 24%),
+    radial-gradient(circle at 45% 88%, rgba(255, 255, 255, 0.05), transparent 35%);
+  pointer-events: none;
+}
+
+.site-shell::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.22;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.35) 0.65px, transparent 0.65px);
+  background-size: 3px 3px;
+  mask-image: linear-gradient(180deg, transparent 0%, black 16%, black 84%, transparent 100%);
+}
+
+.glass-surface {
+  box-shadow:
+    0 30px 65px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.hover-lift {
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease, background-color 220ms ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  border-color: rgba(248, 113, 113, 0.5);
+  box-shadow: 0 22px 45px rgba(239, 68, 68, 0.2);
+}
