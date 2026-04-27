@@ -1,7 +1,7 @@
+import heroImage from "./assets/hero.png";
+
 export default function App() {
   const premiumLogo = "/logo-main.png";
-  const heroImage =
-    "https://images.unsplash.com/photo-1473968512647-3e447244af8f?q=80&w=2200&auto=format&fit=crop";
 
   const services = [
     {
@@ -459,7 +459,12 @@ export default function App() {
 
             <div className="rounded-[1.8rem] border border-white/10 bg-black/25 p-6">
               <div className="space-y-4 text-white/82">
-                <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4">redlineaerialpb@gmail.com</div>
+                <a
+                  href="mailto:redlineaerialpb@gmail.com"
+                  className="block rounded-2xl border border-white/10 bg-white/5 px-5 py-4 transition hover:border-red-400/40 hover:text-white"
+                >
+                  redlineaerialpb@gmail.com
+                </a>
                 <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4">FAA Part 107 Certified Operator</div>
                 <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4">Serving Adjusters, Realtors & Homeowners</div>
               </div>
