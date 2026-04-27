@@ -1,7 +1,6 @@
 export default function App() {
   const premiumLogo = "/logo-main.png";
-  const heroImage =
-    "https://images.unsplash.com/photo-1473968512647-3e447244af8f?q=80&w=2200&auto=format&fit=crop";
+  const heroImage = "/logo-main.png";
 
   const services = [
     {
@@ -142,17 +141,23 @@ export default function App() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#07090c] text-white">
+    <div className="site-shell min-h-screen bg-[#07090c] text-white">
       <section id="home" className="relative isolate overflow-hidden border-b border-white/10">
         <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${heroImage})` }}
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url(${heroImage})`,
+            backgroundPosition: "center 22%",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "min(90vw, 760px) auto",
+            opacity: 0.24,
+          }}
         />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,7,11,0.48)_0%,rgba(4,7,11,0.76)_35%,rgba(4,7,11,0.94)_100%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.18),transparent_26%)]" />
 
         <div className="relative mx-auto max-w-7xl px-6 pb-24 pt-6 md:px-10 md:pb-32">
-          <header className="flex flex-col gap-6 rounded-[2rem] border border-white/10 bg-black/25 px-5 py-4 backdrop-blur md:flex-row md:items-center md:justify-between">
+          <header className="glass-surface sticky top-4 z-30 flex flex-col gap-6 rounded-[2rem] border border-white/10 bg-black/45 px-5 py-4 backdrop-blur-xl md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-3">
               <img
   src={premiumLogo}
@@ -221,7 +226,7 @@ export default function App() {
               </div>
             </div>
 
-            <div className="rounded-[2rem] border border-white/10 bg-black/25 p-6 shadow-2xl backdrop-blur-md lg:ml-8">
+            <div className="glass-surface rounded-[2rem] border border-white/10 bg-black/25 p-6 backdrop-blur-md lg:ml-8">
               <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-7">
                 <p className="text-xs font-semibold uppercase tracking-[0.28em] text-red-300">Core focus</p>
                 <h2 className="mt-4 text-3xl font-bold text-white">High trust visuals for property decisions</h2>
@@ -258,7 +263,7 @@ export default function App() {
             {services.map((service) => (
               <div
                 key={service.title}
-                className="group rounded-[1.8rem] border border-white/10 bg-white/5 p-7 shadow-xl backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-red-400/40 hover:bg-white/8"
+                className="glass-surface hover-lift group rounded-[1.8rem] border border-white/10 bg-white/5 p-7 backdrop-blur"
               >
                 <div className="mb-6 h-1.5 w-16 rounded-full bg-red-500 transition group-hover:w-24" />
                 <h3 className="text-2xl font-semibold text-white">{service.title}</h3>
@@ -271,7 +276,7 @@ export default function App() {
 
       <section id="about" className="relative overflow-hidden border-b border-white/10 bg-[linear-gradient(180deg,#10131a_0%,#0a0c10_100%)]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_right,rgba(220,38,38,0.12),transparent_34%)]" />
-        <div className="relative mx-auto grid max-w-7xl gap-10 px-6 py-24 md:px-10 lg:grid-cols-[1fr_0.92fr]">
+          <div className="relative mx-auto grid max-w-7xl gap-10 px-6 py-24 md:px-10 lg:grid-cols-[1fr_0.92fr]">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-red-300">About</p>
             <h2 className="mt-4 text-4xl font-bold tracking-tight text-white md:text-5xl">
@@ -285,7 +290,7 @@ export default function App() {
               {clients.map((client, index) => (
                 <div
                   key={client.title}
-                  className={`rounded-[1.6rem] border border-white/10 bg-white/5 p-6 backdrop-blur ${index === 2 ? "sm:col-span-2" : ""}`}
+                  className={`glass-surface hover-lift rounded-[1.6rem] border border-white/10 bg-white/5 p-6 backdrop-blur ${index === 2 ? "sm:col-span-2" : ""}`}
                 >
                   <h3 className="text-2xl font-semibold text-white">{client.title}</h3>
                   <p className="mt-3 leading-8 text-white/72">{client.description}</p>
@@ -294,7 +299,7 @@ export default function App() {
             </div>
           </div>
 
-          <div className="rounded-[2rem] border border-white/10 bg-white/5 p-8 shadow-2xl backdrop-blur-md">
+          <div className="glass-surface rounded-[2rem] border border-white/10 bg-white/5 p-8 backdrop-blur-md">
             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-red-300">Process</p>
             <h3 className="mt-4 text-3xl font-bold text-white">Simple from request to delivery</h3>
             <div className="mt-8 space-y-5">
@@ -329,7 +334,7 @@ export default function App() {
 
           <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {deliverables.map((item) => (
-              <div key={item} className="rounded-[1.5rem] border border-white/10 bg-white/5 px-6 py-5 text-white/82 backdrop-blur">
+              <div key={item} className="glass-surface hover-lift rounded-[1.5rem] border border-white/10 bg-white/5 px-6 py-5 text-white/82 backdrop-blur">
                 {item}
               </div>
             ))}
@@ -342,7 +347,7 @@ export default function App() {
         <div className="relative mx-auto max-w-7xl px-6 py-24 md:px-10">
           <div className="grid gap-8 lg:grid-cols-2">
             {audienceSplit.map((group) => (
-              <div key={group.title} className="rounded-[2rem] border border-white/10 bg-white/5 p-8 shadow-2xl backdrop-blur-md">
+              <div key={group.title} className="glass-surface rounded-[2rem] border border-white/10 bg-white/5 p-8 backdrop-blur-md">
                 <p className="text-xs font-semibold uppercase tracking-[0.28em] text-red-300">Audience Focus</p>
                 <h2 className="mt-4 text-3xl font-bold text-white">{group.title}</h2>
                 <div className="mt-8 space-y-4">
@@ -360,7 +365,7 @@ export default function App() {
 
       <section className="relative overflow-hidden border-b border-white/10 bg-[linear-gradient(180deg,#0b0d12_0%,#10141c_100%)]">
         <div className="relative mx-auto max-w-7xl px-6 py-20 md:px-10">
-          <div className="grid gap-4 rounded-[2rem] border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur md:grid-cols-2 xl:grid-cols-4">
+          <div className="glass-surface grid gap-4 rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur md:grid-cols-2 xl:grid-cols-4">
             {trustItems.map((item) => (
               <div key={item} className="rounded-2xl border border-white/10 bg-black/20 px-5 py-4 text-center text-sm font-semibold uppercase tracking-[0.16em] text-white/82">
                 {item}
@@ -385,7 +390,7 @@ export default function App() {
 
           <div className="mt-14 grid gap-6 md:grid-cols-3">
             {pricing.map((item) => (
-              <div key={item.title} className="rounded-[1.8rem] border border-white/10 bg-white/5 p-7 shadow-xl backdrop-blur-md">
+              <div key={item.title} className="glass-surface hover-lift rounded-[1.8rem] border border-white/10 bg-white/5 p-7 backdrop-blur-md">
                 <p className="text-xs font-semibold uppercase tracking-[0.28em] text-red-300">Option</p>
                 <h3 className="mt-4 text-2xl font-semibold text-white">{item.title}</h3>
                 <div className="mt-4 text-3xl font-black text-white">{item.price}</div>
@@ -407,7 +412,7 @@ export default function App() {
 
           <div className="mx-auto mt-14 max-w-4xl space-y-5">
             {faqs.map((item) => (
-              <div key={item.q} className="rounded-[1.6rem] border border-white/10 bg-white/5 p-6 backdrop-blur-md">
+              <div key={item.q} className="glass-surface hover-lift rounded-[1.6rem] border border-white/10 bg-white/5 p-6 backdrop-blur-md">
                 <h3 className="text-xl font-semibold text-white">{item.q}</h3>
                 <p className="mt-3 leading-8 text-white/72">{item.a}</p>
               </div>
@@ -446,7 +451,7 @@ export default function App() {
       <section id="contact" className="relative overflow-hidden bg-[linear-gradient(180deg,#0a0c10_0%,#08090c_100%)]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.16),transparent_30%)]" />
         <div className="relative mx-auto max-w-7xl px-6 py-24 md:px-10">
-          <div className="grid gap-8 rounded-[2rem] border border-white/10 bg-white/5 p-8 shadow-2xl backdrop-blur-md lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+          <div className="glass-surface grid gap-8 rounded-[2rem] border border-white/10 bg-white/5 p-8 backdrop-blur-md lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-red-300">Quick Quote</p>
               <h2 className="mt-4 text-4xl font-bold tracking-tight text-white md:text-5xl">
@@ -459,7 +464,12 @@ export default function App() {
 
             <div className="rounded-[1.8rem] border border-white/10 bg-black/25 p-6">
               <div className="space-y-4 text-white/82">
-                <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4">redlineaerialpb@gmail.com</div>
+                <a
+                  href="mailto:redlineaerialpb@gmail.com"
+                  className="block rounded-2xl border border-white/10 bg-white/5 px-5 py-4 transition hover:border-red-400/40 hover:text-white"
+                >
+                  redlineaerialpb@gmail.com
+                </a>
                 <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4">FAA Part 107 Certified Operator</div>
                 <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4">Serving Adjusters, Realtors & Homeowners</div>
               </div>
