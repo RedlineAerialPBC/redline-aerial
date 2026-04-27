@@ -1,6 +1,6 @@
 export default function App() {
   const premiumLogo = "/logo-main.png";
-  const heroImage = "/Redline%20Aerial%20logo%20designs.png";
+  const heroImage = "/logo-main.png";
 
   const services = [
     {
@@ -144,8 +144,14 @@ export default function App() {
     <div className="site-shell min-h-screen bg-[#07090c] text-white">
       <section id="home" className="relative isolate overflow-hidden border-b border-white/10">
         <div
-          className="absolute inset-0 bg-cover bg-top"
-          style={{ backgroundImage: `url(${heroImage})` }}
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url(${heroImage})`,
+            backgroundPosition: "center 22%",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "min(90vw, 760px) auto",
+            opacity: 0.24,
+          }}
         />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,7,11,0.48)_0%,rgba(4,7,11,0.76)_35%,rgba(4,7,11,0.94)_100%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.18),transparent_26%)]" />
