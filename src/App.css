@@ -1,0 +1,214 @@
+.app-shell {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  padding: 1rem 0.9rem 2rem;
+}
+
+.app-header {
+  background: rgba(10, 18, 30, 0.76);
+  border: 1px solid rgba(146, 169, 201, 0.22);
+  border-radius: 14px;
+  padding: 1rem;
+}
+
+.kicker {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #85c9ff;
+  letter-spacing: 0.08em;
+}
+
+.app-header h1 {
+  margin: 0.3rem 0 0;
+  font-size: clamp(1.3rem, 4.8vw, 2rem);
+}
+
+.app-header p {
+  margin: 0.65rem 0 0;
+  color: #d4ddf4;
+}
+
+.controls {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.search-bar {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.search-label {
+  font-size: 0.8rem;
+  color: #b7c8ec;
+}
+
+.search-bar input {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(167, 185, 219, 0.45);
+  background: #0d1827;
+  color: #f7fbff;
+  padding: 0.8rem 0.95rem;
+  font-size: 1rem;
+}
+
+.search-bar input:focus-visible,
+.tab:focus-visible,
+.empty-state button:focus-visible {
+  outline: 2px solid #6ac2ff;
+  outline-offset: 2px;
+}
+
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.2rem;
+}
+
+.tab {
+  border: 1px solid rgba(145, 165, 201, 0.5);
+  background: #0f1b2d;
+  color: #dce9ff;
+  border-radius: 999px;
+  padding: 0.55rem 0.85rem;
+  white-space: nowrap;
+  font-weight: 600;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tab.is-active {
+  background: #204972;
+  border-color: #7ec7ff;
+  color: #ffffff;
+}
+
+.results-summary {
+  margin: 0.9rem 0 0;
+  color: #bdd1f4;
+}
+
+.card-grid {
+  margin-top: 0.75rem;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.chemical-card {
+  border: 1px solid rgba(129, 154, 191, 0.35);
+  border-radius: 14px;
+  background: rgba(10, 21, 35, 0.9);
+  padding: 0.9rem;
+}
+
+.chemical-card header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.chemical-card h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.placard {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  background: #264f78;
+  border: 1px solid rgba(140, 206, 255, 0.7);
+  padding: 0.25rem 0.6rem;
+  font-size: 0.78rem;
+}
+
+.details-grid {
+  margin-top: 0.7rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.field-row {
+  margin: 0;
+  display: grid;
+  gap: 0.15rem;
+  background: #0f1b2b;
+  border: 1px solid rgba(138, 157, 189, 0.3);
+  border-radius: 10px;
+  padding: 0.55rem;
+}
+
+.field-row dt {
+  margin: 0;
+  font-size: 0.72rem;
+  color: #9fb4d8;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.field-row dd {
+  margin: 0;
+  font-size: 0.88rem;
+}
+
+.chemical-card section {
+  margin-top: 0.7rem;
+}
+
+.chemical-card h3 {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #b6cbef;
+}
+
+.chemical-card ul,
+.chemical-card p {
+  margin: 0.35rem 0 0;
+  padding-left: 1rem;
+  color: #e7efff;
+}
+
+.chemical-card p {
+  padding-left: 0;
+}
+
+.empty-state {
+  margin-top: 1rem;
+  border-radius: 14px;
+  border: 1px dashed rgba(157, 178, 214, 0.6);
+  background: rgba(13, 25, 40, 0.86);
+  padding: 1rem;
+}
+
+.empty-state h2 {
+  margin: 0;
+}
+
+.empty-state p {
+  margin: 0.4rem 0 0.8rem;
+}
+
+.empty-state button {
+  border: 1px solid #8dc9ff;
+  background: #204b75;
+  color: #fff;
+  border-radius: 10px;
+  padding: 0.6rem 0.8rem;
+  cursor: pointer;
+}
+
+@media (min-width: 760px) {
+  .app-shell {
+    padding: 1.4rem 1.2rem 2.5rem;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
