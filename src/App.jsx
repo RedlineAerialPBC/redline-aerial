@@ -1,6 +1,7 @@
 import "./App.css";
 import { useMemo, useState } from "react";
 import ChemicalCard from "./components/ChemicalCard";
+import DetailPanel from "./components/DetailPanel";
 import ResultsSummary from "./components/ResultsSummary";
 import SearchBar from "./components/SearchBar";
 import TabFilters from "./components/TabFilters";
@@ -46,25 +47,25 @@ function matchesSearch(chemical, query) {
 export default function App() {
   const [selectedTab, setSelectedTab] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedChemicalId, setSelectedChemicalId] = useState(null);
 
   const filteredChemicals = useMemo(() => {
     return CHEMICALS.filter((chemical) => {
       const tabMatch = selectedTab === "all" || chemical.category === selectedTab;
       const queryMatch = matchesSearch(chemical, searchTerm);
-
       return tabMatch && queryMatch;
     });
   }, [searchTerm, selectedTab]);
+
+  const selectedChemical =
+    filteredChemicals.find((chemical) => chemical.id === selectedChemicalId) ?? filteredChemicals[0] ?? null;
 
   return (
     <main className="app-shell">
       <header className="app-header">
         <p className="kicker">Field Reference</p>
         <h1>Rapid Chemical Response Guide</h1>
-        <p>
-          Mobile-first hazardous material lookup for firefighters. Use category tabs and search to quickly find
-          UN/CAS identifiers, key hazards, and initial action reminders.
-        </p>
+        <p>Search, select, and review full chemical response details.</p>
       </header>
 
       <section className="controls" aria-label="chemical search and filters">
@@ -74,27 +75,20 @@ export default function App() {
 
       <ResultsSummary total={CHEMICALS.length} visible={filteredChemicals.length} />
 
-      {filteredChemicals.length === 0 ? (
-        <div className="empty-state">
-          <h2>No results found</h2>
-          <p>Try a different search term or switch to another tab.</p>
-          <button
-            type="button"
-            onClick={() => {
-              setSearchTerm("");
-              setSelectedTab("all");
-            }}
-          >
-            Clear filters
-          </button>
-        </div>
-      ) : (
+      <section className="workspace" aria-label="chemical workspace">
         <section className="card-grid" aria-label="chemical results">
           {filteredChemicals.map((chemical) => (
-            <ChemicalCard key={chemical.id} chemical={chemical} />
+            <ChemicalCard
+              key={chemical.id}
+              chemical={chemical}
+              isActive={chemical.id === selectedChemicalId}
+              onSelect={(item) => setSelectedChemicalId(item.id)}
+            />
           ))}
         </section>
-      )}
+
+        <DetailPanel chemical={selectedChemical} />
+      </section>
     </main>
   );
 }

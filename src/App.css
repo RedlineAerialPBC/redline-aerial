@@ -1,5 +1,5 @@
 .app-shell {
-  width: min(1120px, 100%);
+  width: min(1200px, 100%);
   margin: 0 auto;
   padding: 1rem 0.9rem 2rem;
 }
@@ -17,7 +17,6 @@
   font-weight: 700;
   text-transform: uppercase;
   color: #85c9ff;
-  letter-spacing: 0.08em;
 }
 
 .app-header h1 {
@@ -58,7 +57,7 @@
 
 .search-bar input:focus-visible,
 .tab:focus-visible,
-.empty-state button:focus-visible {
+.card-button:focus-visible {
   outline: 2px solid #6ac2ff;
   outline-offset: 2px;
 }
@@ -79,43 +78,72 @@
   white-space: nowrap;
   font-weight: 600;
   cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
 }
 
 .tab.is-active {
   background: #204972;
   border-color: #7ec7ff;
-  color: #ffffff;
+  color: #fff;
 }
 
 .results-summary {
-  margin: 0.9rem 0 0;
+  margin: 0.9rem 0;
   color: #bdd1f4;
 }
 
-.card-grid {
-  margin-top: 0.75rem;
+.workspace {
   display: grid;
   gap: 0.8rem;
+}
+
+.card-grid {
+  display: grid;
+  gap: 0.8rem;
+  align-content: start;
 }
 
 .chemical-card {
   border: 1px solid rgba(129, 154, 191, 0.35);
   border-radius: 14px;
   background: rgba(10, 21, 35, 0.9);
-  padding: 0.9rem;
 }
 
-.chemical-card header {
+.chemical-card.is-active {
+  border-color: rgba(117, 202, 255, 0.8);
+  box-shadow: 0 0 0 1px rgba(117, 202, 255, 0.4);
+}
+
+.card-button {
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  padding: 0.85rem;
+  cursor: pointer;
+}
+
+.card-top-row {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
   gap: 0.6rem;
 }
 
-.chemical-card h2 {
+.card-top-row h2 {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
+}
+
+.card-sub {
+  margin: 0.45rem 0 0;
+  color: #98b5e4;
+  font-size: 0.85rem;
+}
+
+.card-threat {
+  margin: 0.5rem 0 0;
+  color: #e7efff;
+  font-size: 0.9rem;
 }
 
 .placard {
@@ -126,6 +154,23 @@
   border: 1px solid rgba(140, 206, 255, 0.7);
   padding: 0.25rem 0.6rem;
   font-size: 0.78rem;
+}
+
+.detail-panel {
+  border: 1px solid rgba(129, 154, 191, 0.35);
+  border-radius: 14px;
+  background: rgba(10, 21, 35, 0.9);
+  padding: 0.9rem;
+}
+
+.detail-panel h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.detail-panel header p {
+  margin: 0.35rem 0 0;
+  color: #a7c1ea;
 }
 
 .details-grid {
@@ -149,7 +194,6 @@
   font-size: 0.72rem;
   color: #9fb4d8;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
 }
 
 .field-row dd {
@@ -157,58 +201,16 @@
   font-size: 0.88rem;
 }
 
-.chemical-card section {
-  margin-top: 0.7rem;
-}
-
-.chemical-card h3 {
-  margin: 0;
-  font-size: 0.9rem;
-  color: #b6cbef;
-}
-
-.chemical-card ul,
-.chemical-card p {
-  margin: 0.35rem 0 0;
-  padding-left: 1rem;
-  color: #e7efff;
-}
-
-.chemical-card p {
-  padding-left: 0;
-}
-
-.empty-state {
-  margin-top: 1rem;
-  border-radius: 14px;
-  border: 1px dashed rgba(157, 178, 214, 0.6);
-  background: rgba(13, 25, 40, 0.86);
-  padding: 1rem;
-}
-
-.empty-state h2 {
-  margin: 0;
-}
-
-.empty-state p {
-  margin: 0.4rem 0 0.8rem;
-}
-
-.empty-state button {
-  border: 1px solid #8dc9ff;
-  background: #204b75;
-  color: #fff;
-  border-radius: 10px;
-  padding: 0.6rem 0.8rem;
-  cursor: pointer;
-}
-
-@media (min-width: 760px) {
-  .app-shell {
-    padding: 1.4rem 1.2rem 2.5rem;
+@media (min-width: 980px) {
+  .workspace {
+    grid-template-columns: minmax(340px, 1fr) minmax(440px, 1.2fr);
+    align-items: start;
   }
 
-  .card-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .detail-panel {
+    position: sticky;
+    top: 0.75rem;
+    max-height: calc(100vh - 1.5rem);
+    overflow: auto;
   }
 }
