@@ -188,7 +188,7 @@ bdy = card_y + 212
 badges = [
     ("FAA PART 107", "Certified Pilot"),
     ("FIREFIGHTER", "Owned & Operated"),
-    ("STARTING AT", "$150 / Shoot"),
+    ("ONLY $100", "Community Rate"),
 ]
 bw, bh = 296, 80
 bx0 = (W - (bw * 3 + 22)) // 2
@@ -214,7 +214,7 @@ cb = ImageDraw.Draw(cta_l)
 cb.rounded_rectangle([81, cta_y + 1, W - 81, cta_y + 5], radius=3, fill=(255, 100, 80, 60))
 base = overlay_rgba(base, cta_l)
 draw = ImageDraw.Draw(base)
-cx(draw, cta_y + 8,  "Book before June 1st — protect your home!", f_bold_md, WHITE, shadow=True)
+cx(draw, cta_y + 8,  "Only $100 for neighbors — book before June 1st!", f_bold_md, WHITE, shadow=True)
 cx(draw, cta_y + 44, "Same-day scheduling available · Palm Beach & Broward", f_reg_xs, SILVER)
 
 domain_y = cta_y + 88
