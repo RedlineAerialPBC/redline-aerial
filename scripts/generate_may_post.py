@@ -214,7 +214,7 @@ cb = ImageDraw.Draw(cta_l)
 cb.rounded_rectangle([81, cta_y + 1, W - 81, cta_y + 5], radius=3, fill=(255, 100, 80, 60))
 base = overlay_rgba(base, cta_l)
 draw = ImageDraw.Draw(base)
-cx(draw, cta_y + 8,  "Only $100 for neighbors — book before June 1st!", f_bold_md, WHITE, shadow=True)
+cx(draw, cta_y + 8,  "Only $100 for your neighbors!", f_bold_md, WHITE, shadow=True)
 cx(draw, cta_y + 44, "Same-day scheduling available · Palm Beach & Broward", f_reg_xs, SILVER)
 
 domain_y = cta_y + 88
