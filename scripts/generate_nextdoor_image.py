@@ -1,176 +1,280 @@
 #!/usr/bin/env python3
-"""Generates a Nextdoor-friendly promotional post image for Redline Aerial."""
+"""Generates a flashy Nextdoor promotional post image for Redline Aerial."""
 
-from PIL import Image, ImageDraw, ImageFont
-import os
+import math
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 W, H = 1080, 1080
-OUT = os.path.join(os.path.dirname(__file__), "..", "public", "nextdoor-post.png")
-LOGO = os.path.join(os.path.dirname(__file__), "..", "public", "logo-main.png")
+OUT = "public/nextdoor-post.png"
+LOGO = "public/logo-main.png"
+FONT_DIR = "/usr/share/fonts/truetype/dejavu"
 
-RED = (204, 0, 0)
-RED_LIGHT = (230, 40, 40)
-WHITE = (255, 255, 255)
-OFF_WHITE = (220, 220, 225)
-GRAY = (160, 160, 170)
-BG_DARK = (14, 14, 16)
-BG_MID = (22, 22, 26)
-CARD_BG = (28, 28, 34, 210)
+# Brand colors
+RED       = (220, 20, 20)
+RED_BRIGHT= (255, 50, 50)
+RED_DIM   = (140, 10, 10)
+WHITE     = (255, 255, 255)
+OFF_WHITE = (230, 232, 238)
+SILVER    = (190, 195, 205)
+GRAY      = (130, 135, 148)
+BLACK     = (0, 0, 0)
 
 
-def load_font(path, size):
+def font(name, size):
     try:
-        return ImageFont.truetype(path, size)
+        return ImageFont.truetype(f"{FONT_DIR}/{name}", size)
     except Exception:
         return ImageFont.load_default()
 
 
-def centered_text(draw, y, text, font, color, width=W):
-    bbox = draw.textbbox((0, 0), text, font=font)
+def cx_text(draw, y, text, f, color, width=W, shadow=False, shadow_color=(0,0,0)):
+    if shadow:
+        bbox = draw.textbbox((0, 0), text, font=f)
+        tw = bbox[2] - bbox[0]
+        x = (width - tw) // 2
+        draw.text((x+3, y+3), text, font=f, fill=shadow_color)
+    bbox = draw.textbbox((0, 0), text, font=f)
     tw = bbox[2] - bbox[0]
     x = (width - tw) // 2
-    draw.text((x, y), text, font=font, fill=color)
-    return bbox[3] - bbox[1]  # height
-
-
-def draw_rounded_rect(draw, xy, radius, fill, outline=None, outline_width=2):
-    x1, y1, x2, y2 = xy
-    draw.rounded_rectangle([x1, y1, x2, y2], radius=radius, fill=fill,
-                            outline=outline, width=outline_width)
-
-
-def draw_checkmark_item(draw, x, y, text, font, color=OFF_WHITE, dot_color=RED):
-    draw.ellipse([x, y + 6, x + 18, y + 24], fill=dot_color)
-    draw.text((x + 28, y), text, font=font, fill=color)
-    bbox = draw.textbbox((0, 0), text, font=font)
+    draw.text((x, y), text, font=f, fill=color)
     return bbox[3] - bbox[1]
 
 
-# ── Canvas ──────────────────────────────────────────────────────────────────
-img = Image.new("RGB", (W, H), BG_DARK)
-draw = ImageDraw.Draw(img)
+def rrect(draw, xy, r, fill=None, outline=None, ow=2):
+    draw.rounded_rectangle(xy, radius=r, fill=fill, outline=outline, width=ow)
 
-# Vertical gradient background
+
+# ── 1. BASE BACKGROUND ────────────────────────────────────────────────────────
+base = Image.new("RGB", (W, H))
+bd = ImageDraw.Draw(base)
+
+# Rich dark gradient top→bottom
 for y in range(H):
     t = y / H
-    r = int(14 + t * 12)
-    g = int(14 + t * 6)
-    b = int(16 + t * 14)
-    draw.line([(0, y), (W, y)], fill=(r, g, b))
+    r = int(8  + t * 18)
+    g = int(8  + t * 8)
+    b = int(12 + t * 20)
+    bd.line([(0, y), (W, y)], fill=(r, g, b))
 
-# Subtle radial vignette from top center (no hard rings)
-vignette = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-vd = ImageDraw.Draw(vignette)
-for i in range(30):
-    alpha = int(22 * (1 - i / 30))
-    r = 320 + i * 14
-    cx, cy = W // 2, 0
-    vd.ellipse([cx - r, cy - r // 2, cx + r, cy + r // 2], fill=(204, 0, 0, alpha))
-img = Image.alpha_composite(img.convert("RGBA"), vignette).convert("RGB")
+# ── 2. DIAGONAL RED SLASH BAND ────────────────────────────────────────────────
+slash = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+sd = ImageDraw.Draw(slash)
 
-# Top accent bar
-draw.rectangle([0, 0, W, 7], fill=RED)
+# Main diagonal band
+angle_pts = [(-80, H//2 - 60), (W+80, H//2 - 280),
+             (W+80, H//2 - 160), (-80, H//2 + 40)]
+sd.polygon(angle_pts, fill=(220, 20, 20, 55))
 
-# Bottom accent bar
-draw.rectangle([0, H - 7, W, H], fill=RED)
+# Thinner bright edge line above
+edge1 = [(-80, H//2 - 62), (W+80, H//2 - 282),
+          (W+80, H//2 - 270), (-80, H//2 - 50)]
+sd.polygon(edge1, fill=(255, 80, 80, 130))
 
-# ── Fonts ────────────────────────────────────────────────────────────────────
-FONT_DIR = "/usr/share/fonts/truetype/dejavu"
-f_bold_lg = load_font(f"{FONT_DIR}/DejaVuSans-Bold.ttf", 54)
-f_bold_md = load_font(f"{FONT_DIR}/DejaVuSans-Bold.ttf", 38)
-f_bold_sm = load_font(f"{FONT_DIR}/DejaVuSans-Bold.ttf", 29)
-f_bold_xs = load_font(f"{FONT_DIR}/DejaVuSans-Bold.ttf", 24)
-f_reg_md = load_font(f"{FONT_DIR}/DejaVuSans.ttf", 30)
-f_reg_sm = load_font(f"{FONT_DIR}/DejaVuSans.ttf", 26)
-f_reg_xs = load_font(f"{FONT_DIR}/DejaVuSans.ttf", 22)
-f_oblique = load_font(f"{FONT_DIR}/DejaVuSans-BoldOblique.ttf", 32)
+# Subtle second band below
+band2 = [(-80, H//2 + 60), (W+80, H//2 - 160),
+          (W+80, H//2 - 130), (-80, H//2 + 90)]
+sd.polygon(band2, fill=(180, 10, 10, 35))
 
-# ── Logo ─────────────────────────────────────────────────────────────────────
+base = Image.alpha_composite(base.convert("RGBA"), slash).convert("RGB")
+
+# ── 3. GLOW LAYERS (soft blurred circles) ────────────────────────────────────
+glow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+gd = ImageDraw.Draw(glow)
+
+# Top-center red halo behind logo
+for i in range(60):
+    a = int(38 * (1 - i/60)**2)
+    r = 180 + i * 9
+    gd.ellipse([W//2-r, 30-r//2, W//2+r, 30+r//2], fill=(220, 20, 20, a))
+
+# Bottom right accent glow
+for i in range(40):
+    a = int(25 * (1 - i/40)**2)
+    r = 100 + i * 8
+    gd.ellipse([W-r-60, H-r-60, W+r-60, H+r-60], fill=(200, 15, 15, a))
+
+glow_blur = glow.filter(ImageFilter.GaussianBlur(radius=30))
+base = Image.alpha_composite(base.convert("RGBA"), glow_blur).convert("RGB")
+
+# ── 4. GRID LINES (subtle perspective grid) ───────────────────────────────────
+grid = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+grd = ImageDraw.Draw(grid)
+
+# Horizontal grid lines fading out
+for i in range(8):
+    y = H//2 + 30 + i * 62
+    a = max(0, 28 - i * 4)
+    grd.line([(0, y), (W, y)], fill=(180, 180, 200, a), width=1)
+
+# Converging vertical grid lines from bottom
+vp_x, vp_y = W//2, H//2 + 30
+for i in range(-6, 7):
+    ex = i * 90
+    a = max(0, 22 - abs(i) * 3)
+    grd.line([(vp_x + ex*6, H), (vp_x, vp_y)], fill=(180, 180, 200, a), width=1)
+
+base = Image.alpha_composite(base.convert("RGBA"), grid).convert("RGB")
+
+# ── 5. LOGO ───────────────────────────────────────────────────────────────────
 logo = Image.open(LOGO).convert("RGBA")
-scale = 0.36
-nw = int(logo.width * scale)
-nh = int(logo.height * scale)
+scale = 0.46
+nw, nh = int(logo.width * scale), int(logo.height * scale)
 logo = logo.resize((nw, nh), Image.LANCZOS)
-img.paste(logo, ((W - nw) // 2, 28), logo)
-logo_bottom = 28 + nh
 
-draw = ImageDraw.Draw(img, "RGBA")
+# Drop shadow for logo
+shadow_layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+s_img = Image.new("RGBA", (nw+30, nh+30), (0, 0, 0, 0))
+s_img.paste((0, 0, 0, 180), [8, 8, nw+8, nh+8])
+s_img = s_img.filter(ImageFilter.GaussianBlur(12))
+lx = (W - nw) // 2
+ly = 38
+shadow_layer.paste(s_img, (lx - 15, ly - 15), s_img)
+base = Image.alpha_composite(base.convert("RGBA"), shadow_layer).convert("RGB")
+base.paste(logo, (lx, ly), logo)
 
-# ── Tagline ──────────────────────────────────────────────────────────────────
-tag_y = logo_bottom + 14
-centered_text(draw, tag_y, "Your Neighbor in the Sky", f_oblique, RED_LIGHT)
+draw = ImageDraw.Draw(base)
+logo_bottom = ly + nh
 
-# Thin divider
-div_y = tag_y + 46
-draw.rectangle([120, div_y, W - 120, div_y + 2], fill=(204, 0, 0, 160))
+# ── 6. TAGLINE ────────────────────────────────────────────────────────────────
+f_oblique  = font("DejaVuSans-BoldOblique.ttf", 30)
+f_bold_xl  = font("DejaVuSans-Bold.ttf", 58)
+f_bold_lg  = font("DejaVuSans-Bold.ttf", 44)
+f_bold_md  = font("DejaVuSans-Bold.ttf", 31)
+f_bold_sm  = font("DejaVuSans-Bold.ttf", 26)
+f_bold_xs  = font("DejaVuSans-Bold.ttf", 22)
+f_reg_md   = font("DejaVuSans.ttf", 28)
+f_reg_sm   = font("DejaVuSans.ttf", 24)
+f_reg_xs   = font("DejaVuSans.ttf", 20)
 
-# ── Headline ─────────────────────────────────────────────────────────────────
-hl_y = div_y + 22
-centered_text(draw, hl_y, "Professional Drone Photography", f_bold_md, WHITE)
-centered_text(draw, hl_y + 50, "Right Here in South Florida", f_bold_md, WHITE)
+tag_y = logo_bottom + 10
+cx_text(draw, tag_y, "✦  YOUR NEIGHBOR IN THE SKY  ✦", f_oblique, RED_BRIGHT, shadow=True)
 
-# ── Services card ────────────────────────────────────────────────────────────
-card_y = hl_y + 124
-card_x1, card_x2 = 60, W - 60
-card_h = 230
-draw_rounded_rect(draw, [card_x1, card_y, card_x2, card_y + card_h],
-                  radius=18, fill=(28, 28, 36, 200), outline=(204, 0, 0, 120), outline_width=2)
+# Divider with red diamonds
+div_y = tag_y + 44
+draw.rectangle([80, div_y+1, W//2-40, div_y+2], fill=(220, 20, 20, 180))
+draw.rectangle([W//2+40, div_y+1, W-80, div_y+2], fill=(220, 20, 20, 180))
+draw.polygon([W//2-12, div_y-6, W//2, div_y+8, W//2+12, div_y-6, W//2, div_y-18],
+             fill=RED_BRIGHT)
 
-draw = ImageDraw.Draw(img)  # switch back to non-RGBA draw for text
+# ── 7. HEADLINE ───────────────────────────────────────────────────────────────
+hl_y = div_y + 24
+cx_text(draw, hl_y,      "PROFESSIONAL DRONE", f_bold_xl, WHITE, shadow=True, shadow_color=(0,0,0))
+cx_text(draw, hl_y + 68, "PHOTOGRAPHY", f_bold_xl, RED_BRIGHT, shadow=True, shadow_color=(80,0,0))
 
-centered_text(draw, card_y + 18, "What I Can Do For You", f_bold_sm, RED_LIGHT)
+sub_y = hl_y + 140
+cx_text(draw, sub_y, "Right Here in South Florida", f_bold_md, SILVER, shadow=True)
+
+# ── 8. SERVICES CARD ─────────────────────────────────────────────────────────
+card_y = sub_y + 52
+card_x1, card_x2 = 48, W - 48
+card_h = 218
+
+# Card background with RGBA
+overlay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+od = ImageDraw.Draw(overlay)
+od.rounded_rectangle([card_x1, card_y, card_x2, card_y+card_h],
+                     radius=20, fill=(20, 18, 26, 215))
+od.rounded_rectangle([card_x1, card_y, card_x2, card_y+card_h],
+                     radius=20, outline=(220, 20, 20, 160), width=2)
+# Top inner glow line
+od.rounded_rectangle([card_x1+1, card_y+1, card_x2-1, card_y+3],
+                     radius=2, fill=(255, 80, 80, 80))
+base = Image.alpha_composite(base.convert("RGBA"), overlay).convert("RGB")
+draw = ImageDraw.Draw(base)
+
+# "WHAT I CAN DO FOR YOU" header in card
+cx_text(draw, card_y + 14, "— WHAT I CAN DO FOR YOU —", f_bold_sm, RED_BRIGHT)
 
 services = [
-    "Roof & property photos for insurance claims",
-    "Real estate aerial listing photos",
-    "Storm damage documentation",
-    "Homeowner roof records & maintenance",
+    ("🏠", "Roof & property photos for insurance claims"),
+    ("🏡", "Real estate aerial listing photos"),
+    ("⛈", "Storm damage documentation"),
+    ("📋", "Homeowner roof records & maintenance"),
 ]
-item_y = card_y + 64
-for svc in services:
-    draw_checkmark_item(draw, card_x1 + 36, item_y, svc, f_reg_sm)
-    item_y += 42
+item_y = card_y + 54
+col_x = card_x1 + 30
+for icon, text in services:
+    # Red bullet
+    draw.ellipse([col_x, item_y+8, col_x+14, item_y+22], fill=RED_BRIGHT)
+    draw.text((col_x + 24, item_y), text, font=f_reg_sm, fill=OFF_WHITE)
+    item_y += 40
 
-# ── Badges row ───────────────────────────────────────────────────────────────
-badge_y = card_y + card_h + 26
+# ── 9. CREDENTIAL BADGES ─────────────────────────────────────────────────────
+badge_y = card_y + card_h + 22
 badges = [
-    ("FAA Part 107", "Certified Pilot"),
-    ("Firefighter", "Owned & Operated"),
-    ("24-Hour", "Turnaround Available"),
+    ("FAA PART 107", "Certified Pilot"),
+    ("FIREFIGHTER", "Owned & Operated"),
+    ("24-HOUR", "Turnaround Available"),
 ]
-bw = 290
-bh = 84
-bx = (W - (bw * 3 + 30)) // 2
+bw, bh = 302, 88
+bx_start = (W - (bw * 3 + 24)) // 2
+
 for i, (line1, line2) in enumerate(badges):
-    bx_cur = bx + i * (bw + 15)
-    draw = ImageDraw.Draw(img, "RGBA")
-    draw_rounded_rect(draw, [bx_cur, badge_y, bx_cur + bw, badge_y + bh],
-                      radius=12, fill=(36, 12, 12, 220), outline=(204, 0, 0, 180), outline_width=2)
-    draw = ImageDraw.Draw(img)
-    b1_bbox = draw.textbbox((0, 0), line1, font=f_bold_xs)
+    bx = bx_start + i * (bw + 12)
+
+    # Badge with gradient effect
+    badge_overlay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    bad = ImageDraw.Draw(badge_overlay)
+    bad.rounded_rectangle([bx, badge_y, bx+bw, badge_y+bh],
+                          radius=14, fill=(30, 8, 8, 230))
+    bad.rounded_rectangle([bx, badge_y, bx+bw, badge_y+bh],
+                          radius=14, outline=(220, 20, 20, 200), width=2)
+    # Top highlight
+    bad.rounded_rectangle([bx+2, badge_y+2, bx+bw-2, badge_y+6],
+                          radius=4, fill=(255, 100, 100, 60))
+    base = Image.alpha_composite(base.convert("RGBA"), badge_overlay).convert("RGB")
+    draw = ImageDraw.Draw(base)
+
+    b1_bbox = draw.textbbox((0, 0), line1, font=f_bold_sm)
     b1w = b1_bbox[2] - b1_bbox[0]
-    draw.text((bx_cur + (bw - b1w) // 2, badge_y + 10), line1, font=f_bold_xs, fill=WHITE)
+    draw.text((bx + (bw - b1w)//2, badge_y + 12), line1, font=f_bold_sm, fill=WHITE)
+
     b2_bbox = draw.textbbox((0, 0), line2, font=f_reg_xs)
     b2w = b2_bbox[2] - b2_bbox[0]
-    draw.text((bx_cur + (bw - b2w) // 2, badge_y + 42), line2, font=f_reg_xs, fill=GRAY)
+    draw.text((bx + (bw - b2w)//2, badge_y + 48), line2, font=f_reg_xs, fill=SILVER)
 
-# ── Pricing callout ──────────────────────────────────────────────────────────
-price_y = badge_y + bh + 28
-draw = ImageDraw.Draw(img, "RGBA")
-draw_rounded_rect(draw, [200, price_y, W - 200, price_y + 68],
-                  radius=10, fill=(180, 0, 0, 60), outline=(204, 0, 0, 140), outline_width=2)
-draw = ImageDraw.Draw(img)
-centered_text(draw, price_y + 10, "Starting at $150  ·  Same-Day Available", f_bold_sm, WHITE)
-centered_text(draw, price_y + 46, "Palm Beach & Broward County", f_reg_xs, GRAY)
+# ── 10. PRICING BAR ──────────────────────────────────────────────────────────
+price_y = badge_y + bh + 22
+price_overlay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+pd = ImageDraw.Draw(price_overlay)
+pd.rounded_rectangle([80, price_y, W-80, price_y+72],
+                     radius=12, fill=(200, 15, 15, 90))
+pd.rounded_rectangle([80, price_y, W-80, price_y+72],
+                     radius=12, outline=(255, 60, 60, 180), width=2)
+base = Image.alpha_composite(base.convert("RGBA"), price_overlay).convert("RGB")
+draw = ImageDraw.Draw(base)
 
-# ── CTA / contact ────────────────────────────────────────────────────────────
-cta_y = price_y + 106
-centered_text(draw, cta_y, "redlineaerialpb.com", f_bold_md, RED_LIGHT)
-centered_text(draw, cta_y + 56, "redlineaerialpb@gmail.com", f_reg_md, GRAY)
+cx_text(draw, price_y + 8,  "Starting at $150  ·  Same-Day Available", f_bold_md, WHITE, shadow=True)
+cx_text(draw, price_y + 46, "Serving Palm Beach & Broward County", f_reg_xs, SILVER)
 
-# Friendly closing line
-centered_text(draw, cta_y + 104, "Happy to answer any questions — drop a comment or DM!", f_reg_xs, GRAY)
+# ── 11. CTA / CONTACT ────────────────────────────────────────────────────────
+cta_y = price_y + 96
+cx_text(draw, cta_y,      "redlineaerialpb.com", f_bold_lg, RED_BRIGHT, shadow=True, shadow_color=(80,0,0))
+cx_text(draw, cta_y + 58, "redlineaerialpb@gmail.com", f_reg_md, SILVER)
+cx_text(draw, cta_y + 96, "Drop a comment or DM — happy to help your neighbors!", f_reg_xs, GRAY)
 
-# ── Save ─────────────────────────────────────────────────────────────────────
-img.save(OUT, "PNG", optimize=True)
-print(f"Saved to {OUT}")
+# ── 12. TOP & BOTTOM ACCENT BARS ─────────────────────────────────────────────
+draw.rectangle([0, 0, W, 8], fill=RED_BRIGHT)
+draw.rectangle([0, H-8, W, H], fill=RED_BRIGHT)
+
+# Corner accent brackets
+bracket_size = 30
+bracket_w = 4
+corners = [(0, 0), (W-bracket_size, 0), (0, H-bracket_size), (W-bracket_size, H-bracket_size)]
+for (cx2, cy2) in corners:
+    if cx2 == 0 and cy2 == 0:
+        draw.rectangle([cx2, cy2+8, cx2+bracket_size, cy2+8+bracket_w], fill=RED_BRIGHT)
+        draw.rectangle([cx2, cy2+8, cx2+bracket_w, cy2+bracket_size], fill=RED_BRIGHT)
+    elif cx2 != 0 and cy2 == 0:
+        draw.rectangle([cx2, cy2+8, cx2+bracket_size, cy2+8+bracket_w], fill=RED_BRIGHT)
+        draw.rectangle([cx2+bracket_size-bracket_w, cy2+8, cx2+bracket_size, cy2+bracket_size], fill=RED_BRIGHT)
+    elif cx2 == 0 and cy2 != 0:
+        draw.rectangle([cx2, cy2+bracket_size-bracket_w, cx2+bracket_size, cy2+bracket_size], fill=RED_BRIGHT)
+        draw.rectangle([cx2, cy2, cx2+bracket_w, cy2+bracket_size], fill=RED_BRIGHT)
+    else:
+        draw.rectangle([cx2, cy2+bracket_size-bracket_w, cx2+bracket_size, cy2+bracket_size], fill=RED_BRIGHT)
+        draw.rectangle([cx2+bracket_size-bracket_w, cy2, cx2+bracket_size, cy2+bracket_size], fill=RED_BRIGHT)
+
+# ── 13. SAVE ─────────────────────────────────────────────────────────────────
+base.save(OUT, "PNG", optimize=True)
+print(f"Saved → {OUT}")
